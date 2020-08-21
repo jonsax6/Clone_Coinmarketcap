@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="logic.js"></script>
+    <title>CoinMarketCap Clone</title>
+  </head>
+  <body>
+    <div class="container my-container">
+        
+            <div class="row"><!--1st visible row-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-12 "><!--column for first vis row-->
+                    <p><small>Cryptocurrencies: <strong id="totalCryptos" class="text-primary">6,525</strong> Markets: <strong id="numMarkets" class="text-primary">26,855</strong> Market Cap: <strong id="totalMarketCap" class="text-primary">$372,367,365,184</strong> 24h Vol: <strong id="total24hrVol" class="text-primary">$87,954,486,240</strong> BTC Dominance: <strong id="BTC_Dominance" class="text-primary">58.9%</strong>
+                    </small></p>
+                </div>
+            </div>
+            <div class="row"><!--2nd visible row (nav bar)-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12"><!--column for 2nd visible row-->
+                    <nav class="navbar navbar-expand-lg navbar-light bg-white"><!--start of navbar-->
+                        <a class="navbar-brand" href="https://coinmarketcap.com/">
+                            <img src="https://s2.coinmarketcap.com/static/cloud/img/coinmarketcap_1.svg?_=0d6e6f2" style="height:1.75em">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto"><!--start of dropdown items-->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Cryptocurrencies
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/">Cryptocurrencies</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/coins/">Coins</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/tokens/">Tokens</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Exchanges
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Headlines
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/headlines/">Feed</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/headlines/news/">News</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/headlines/news/">Signals</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/headlines/events/">Events</a>
+                            </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Products
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tools
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Learn
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                                <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="row justify-content-center full-width"><!--data table title-->
+                <div class="col col-title">
+                    <div class="row justify-content-center full-height">
+                        <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
+                    </div>
+                </div>
+            </div>    
+
+            <!--start of table tabs-->
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-link active" id="nav-cryptocurrency-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-cryptocurrency" aria-selected="true">Cryptocurrencies</a>
+                  <a class="nav-link" id="nav-exchanges-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-exchanges" aria-selected="false">Exchanges</a>
+                  <a class="nav-link" id="nav-watchlist-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-watchlist" aria-selected="false">Watchlist</a>
+                  <div class="col-5"></div>
+                  <div class="col-3"><a class="nav-link active" id="nav-nextpg-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Next Page -></a></div>
+                </div>
+            </nav>
+            <!--start of table contents-->
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <table class="coinsTable"><!--start of table data-->
+                        <thead>
+                          <tr>
+                            <th id="rank" scope="col">Rank</th>
+                            <th id="name" scope="col">Name</th>
+                            <th id="mCap" scope="col">Market Cap</th>
+                            <th id="price" scope="col">Price</th>
+                            <th id="volume" scope="col">Volume (24h)</th>
+                            <th id="cirSupply" scope="col">Circulating Supply</th>
+                            <th id="change" scope="col">Change (24h)</th>
+                            <th id="priceGraph" scope="col">Price Graph(7d)</th>
+                          </tr>
+                        </thead>
+                        <tbody id="marketsTable">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Exchange listings</div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Your Watchlist</div>
+            </div>
+            
+            
+
+    </div> 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  </body>
+</html>

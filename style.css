@@ -1,0 +1,19 @@
+.my-container {
+    max-width: 1280px;
+  }
+
+.col-title {
+    height: 100px;
+}
+
+.grey-backing {
+    background: grey;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
