@@ -1,13 +1,7 @@
 $( document ).ready(function() {
     let BASE_URL = "https://api.coingecko.com/api/v3";
-    let COINS_MARKETS_PG1 = "/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
-    let COINS_MARKETS_PG2 = "/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=2&sparkline=false";
-    let EXCHANGES = "/exchanges?per_page=100&page=1";
-
-    let marketDataAPI_1 = BASE_URL+COINS_MARKETS_PG1;
-    let marketDataAPI_2 = BASE_URL+COINS_MARKETS_PG2;
-    let exchangeDataAPI_1 = BASE_URL+EXCHANGES;
-    let pg = 1;
+    let coinPG = 1;
+    let exchangePG = 1;
     const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -35,7 +29,15 @@ $( document ).ready(function() {
     
 
     function populateCoinsTable(){
-        let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${pg}&sparkline=false`;
+        $("#crypto-page-title").html("");
+        $("#crypto-page-title").append(
+            `                    
+            <div class="row justify-content-center full-height">
+                <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
+            </div>
+            `
+            )
+        let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${coinPG}&sparkline=false`;
         fetch(COINS_MARKETS)
           .then(res => {
           res.json().then( data => {
@@ -61,9 +63,7 @@ $( document ).ready(function() {
                 if (ID_url == undefined){
                     ID_url = "1";
                 }
-             
-
-              // CREATE A ROW AND APPEND TO TABLE
+                //table dynamically created, data feed from fetch(COINS_MARKETS)
                 $("#marketsTable").append(
                     `<tr>
                         <th scope="row">${coinData.market_cap_rank}</td>
@@ -97,8 +97,20 @@ $( document ).ready(function() {
           })
         })
     }
-    function populateExchangeTable(url,rank,pg){
-        fetch(url)
+    function populateExchangeTable(){
+        $("#crypto-page-title").html("");
+        $("#crypto-page-title").append(
+            `                    
+            <div class="row justify-content-center full-height">
+                <h4 class="align-self-center"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
+            </div>
+            <div class="row justify-content-center full-height">
+                <h6 class="text-secondary font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
+            </div>
+            `
+            )
+            let EXCHANGES = `${BASE_URL}/exchanges?per_page=100&page=${exchangePG}`;
+        fetch(EXCHANGES)
           .then(res => {
           res.json().then( data => {
             for(i = 0; i < 100; i++){
@@ -144,21 +156,40 @@ $( document ).ready(function() {
     }
 
 $("#previous-page").hide();
+$("#previous-page-btm").hide();
 populateCoinsTable();
 
 
 $("#next-page").click(function(){
     $("#marketsTable").html("");
     $("#previous-page").show();
-    pg++;
+    $("#previous-page-btm").show();
+    coinPG++;
+    populateCoinsTable();
+})
+$("#next-page-btm").click(function(){
+    $("#marketsTable").html("");
+    $("#previous-page").show();
+    $("#previous-page-btm").show();
+    coinPG++;
     populateCoinsTable();
 })
 $("#previous-page").click(function(){
     $("#marketsTable").html("");
-    if(pg < 3){
+    if(coinPG < 3){
         $("#previous-page").hide();
+        $("#previous-page-btm").hide();
     }
-    pg--;
+    coinPG--;
+    populateCoinsTable();
+})
+$("#previous-page-btm").click(function(){
+    $("#marketsTable").html("");
+    if(coinPG < 3){
+        $("#previous-page").hide();
+        $("#previous-page-btm").hide();
+    }
+    coinPG--;
     populateCoinsTable();
 })
   
