@@ -1,9 +1,9 @@
 .my-container {
-    max-width: 1280px;
+    max-width: 1320px;
   }
 
-.col-title {
-    height: 100px;
+.row-title {
+    height: 50px;
 }
 
 .grey-backing {
@@ -17,3 +17,4 @@
 .full-width {
     width: 100%;
 }
+
