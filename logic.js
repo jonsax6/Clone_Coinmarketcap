@@ -1,7 +1,6 @@
 $( document ).ready(function() {
     let BASE_URL = "https://api.coingecko.com/api/v3";
-    let coinPG = 1;
-    let exchangePG = 1;
+    let PG = 1;
     const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -10,6 +9,8 @@ $( document ).ready(function() {
 
     let SPARKLINE_BASE = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
     let coinID_Obj_Symbol = {};
+    var exchangeTableOpen = false;
+
     for(i = 0; i < CMC_DATA.length; i++){
         let coin = CMC_DATA[i];
         coinID_Obj_Symbol[coin.symbol] = coin.id;
@@ -35,147 +36,224 @@ $( document ).ready(function() {
       }
      
     
-
-
-    function populateCoinsTable(){
-        $("#nav-exchanges").hide();
-        $("#crypto-page-title").html(
-            `                    
-            <div class="row justify-content-center mt-3 full-height">
-                <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
-            </div>
-            `
-            )
-        let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${coinPG}&sparkline=true`;
-        fetch(COINS_MARKETS)
-            .then(res => {
-            res.json().then( data => {
-            for(i = 0; i < data.length; i++){
-                let coinData = data[i];
-                const MarketCap = coinData.market_cap ? Number(coinData.market_cap.toFixed(2)) : "-";
-                const coinPrice = coinData.current_price ? Number(coinData.current_price.toFixed(2)) : "-";
-                const volume = coinData.total_volume ? Number(coinData.total_volume.toFixed(2)) : "-";
-                const cirSuppy = coinData.circulating_supply ? Number(coinData.circulating_supply.toFixed(2)) : "-";
-                const coinDelta = coinData.price_change_24h ? Number(coinData.price_change_24h.toFixed(2)) : "-";
-                const sparkData = coinData.sparkline_in_7d.price;
-                const coinSymbol = coinData.symbol;
-                const coinName = coinData.name;
-                const coin_ID = coinData.id;
-                const capSymbol = coinSymbol.toUpperCase(); //converts lowercase coin symbols to uppercase
-                
-                let ID_url = coinID_Obj_Symbol[capSymbol]; //sets ID_url to the coinID_Obj_Symbol assigning coinData.symbol
-                if (ID_url == undefined){ //if ID_url comes back undefined, we try an different object comparing to  "name"
-                    ID_url = coinID_Obj_Name[coinName];
-                } 
-                if (ID_url == undefined){ // if above also returns undefined, we try the final object and compare to "slug"
-                    ID_url = coinID_Obj_Slug[coin_ID];
-                } 
-                if (ID_url == undefined){
-                    ID_url = "1";
-                }
-                //table dynamically created, data feed from fetch(COINS_MARKETS)
-                $("#markets-table").append(
-                    `<tr>
-                        <th scope="row">${coinData.market_cap_rank}</td>
-                        <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinData.name}</b></td>
-                        <td class="text-right">${formatter.format(MarketCap)}</td>
-                        <td class="text-right">${formatter.format(coinPrice)}</td>
-                        <td class="text-right">${formatter.format(volume)}</td>
-                        <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
-                        <td class="text-right">${formatter.format(coinDelta)}</td>
-                        <td><img src=${SPARKLINE_BASE}${ID_url}.png style="height: 2em;"></td>
-                    </tr>`
-                )
-                
-
-                
+    async function populateCoinsTable(){
+        let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${PG}&sparkline=true`;
+        const res = await fetch(COINS_MARKETS);
+        const data = await res.json();
+        
+        for(i = 0; i < data.length; i++){
+            let coinData = data[i];
+            const MarketCap = coinData.market_cap ? Number(coinData.market_cap).toFixed(2) : "-";
+            const coinPrice = coinData.current_price ? Number(coinData.current_price).toFixed(2) : "-";
+            const volume = coinData.total_volume ? Number(coinData.total_volume).toFixed(2) : "-";
+            const cirSuppy = coinData.circulating_supply ? Number(coinData.circulating_supply).toFixed(2) : "-";
+            const coinDelta = coinData.price_change_percentage_24h ? Number(coinData.price_change_percentage_24h).toFixed(2) : "-";
+            const sparkData = coinData.sparkline_in_7d.price;
+            const coinSymbol = coinData.symbol;
+            const coinName = coinData.name;
+            const coin_ID = coinData.id;
+            const capSymbol = coinSymbol.toUpperCase(); //converts lowercase coin symbols to uppercase
+            
+            let ID_url = coinID_Obj_Symbol[capSymbol]; //sets ID_url to the coinID_Obj_Symbol assigning coinData.symbol
+            if (ID_url == undefined){ //if ID_url comes back undefined, we try an different object comparing to  "name"
+                ID_url = coinID_Obj_Name[coinName];
+            } 
+            if (ID_url == undefined){ // if above also returns undefined, we try the final object and compare to "slug"
+                ID_url = coinID_Obj_Slug[coin_ID];
+            } 
+            if (ID_url == undefined){
+                ID_url = "1";
             }
-            })
-            })
-            .catch(function(err){
-                alert("fetch() data error");
-            })
-    }
-    function populateExchangeTable(){
-        $("#nav-cryptocurrency").hide();
-        $("#crypto-page-title").html(
-            `                    
-            <div class="row border justify-content-center mt-3">
-                <h4 class="align-bottom"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
-            </div>
-            <div class="row border justify-content-center full-height">
-                <h6 class="align-top text-secondary font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
-            </div>
-            `
-           )
-        let EXCHANGES = `${BASE_URL}/exchanges?per_page=100&page=${exchangePG}`;
-        fetch(EXCHANGES)
-            .then(res => {
-            res.json().then( async data => {
-            for(i = 0; i < 100; i++){
-                let exchangeData = data[i];
-                const exName = exchangeData.name;
-                const exCountry = exchangeData.country;
-                const exYear = exchangeData.year_established;
-                const volumeBTC = exchangeData.trade_volume_24h_btc ? Number(exchangeData.trade_volume_24h_btc).toFixed(2) : "-";
-                var BTC_price = await current_BTC_price();
-                const volumeUSD = Number((volumeBTC * BTC_price)).toFixed(2);
-                const exTrust = exchangeData.trust_score;
-
-                $("#markets-table").append(
-                    `<tr>
-                        <th scope="row">${exchangeData.trust_score_rank}</td>
-                        <td><b><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;${exchangeData.name}</b></td>
-                        <td class="text-right">${exCountry}</td>
-                        <td>${exYear}}</td>
-                        <td>${formatter.format(volumeUSD)}</td>
-                        <td>${exTrust}</td>
-                    </tr>`
-                )
+            
+            //table dynamically created, data feed from fetch(COINS_MARKETS)
+            $("#cmc-table").append(
+                `<tr>
+                    <th scope="row">${coinData.market_cap_rank}</td>
+                    <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinData.name}</b></td>
+                    <td class="text-right">${formatter.format(MarketCap)}</td>
+                    <td class="text-right">${formatter.format(coinPrice)}</td>
+                    <td class="text-right">${formatter.format(volume)}</td>
+                    <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
+                    <td id="coin-change-percent${i}" class="text-right">${coinDelta}%</td>
+                    <td class="text-right"><img src=${SPARKLINE_BASE}${ID_url}.png style="height: 2em;"></td>
+                </tr>`
+                
+            );
+            if (coinDelta > 0){
+                $(`#coin-change-percent${i}`).addClass("green");
+            } 
+            if (coinDelta < 0){
+                $(`#coin-change-percent${i}`).addClass("red");
             }
-          })
-        })
+        }
+        
     }
-
 
     
-$("#previous-page").hide();
-$("#previous-page-btm").hide();
-populateCoinsTable();
+
+    async function populateExchangeTable(){
+        let EXCHANGES = `${BASE_URL}/exchanges?per_page=100&page=${PG}`;
+        const res = await fetch(EXCHANGES);
+        const data = await res.json();
+        for(i = 0; i < 100; i++){
+            let exchangeData = data[i];
+            const exName = exchangeData.name;
+            const exCountry = exchangeData.country;
+            const exUrl = exchangeData.url;
+            const exYear = exchangeData.year_established;
+            const volumeBTC = exchangeData.trade_volume_24h_btc ? Number(exchangeData.trade_volume_24h_btc).toFixed(2) : "-";
+            var BTC_price = await current_BTC_price();
+            const volumeUSD = Number((volumeBTC * BTC_price)).toFixed(2);
+            const exTrust = exchangeData.trust_score;
+
+            $("#cmc-table").append(
+                `<tr>
+                    <th scope="row">${exchangeData.trust_score_rank}</td>
+                    <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b>${exchangeData.name}</b></a></td>
+                    <td class="text-left">${exTrust}</td>
+                    <td class="text-left">${exCountry}</td>
+                    <td class="text-left">${exYear}</td>
+                    <td class="text-right">${formatter.format(volumeUSD)}</td>
+                </tr>`
+            )
+        } 
+    }
 
 
-$("#next-page").click(function(){
-    $("#markets-table").html("");
-    $("#previous-page").show();
-    $("#previous-page-btm").show();
-    coinPG++;
+    $("#previous-page").hide();  //make sure previous page nav buttons aren't showing for home page
+    $("#previous-page-btm").hide();
+    $("#cmc-page-title").html( //loads up the main table title
+        `<div class="row justify-content-center mt-3 full-height">
+            <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
+        </div>`
+        );
+    $("#nav-tabContent").html( //table header load for home page
+        `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
+            <table class="table" id="markets-table-header"><!--start of table data-->
+                <thead id="cmc-table-header">
+                    <tr>
+                        <th class="text-right" scope="col">Rank</th>
+                        <th class="text-left"scope="col">Name</th>
+                        <th class="text-right" scope="col">Market Cap</th>
+                        <th class="text-right" scope="col">Price</th>
+                        <th class="text-right" scope="col">Volume (24h)</th>
+                        <th class="text-right" scope="col">Circulating Supply</th>
+                        <th class="text-right" scope="col">Change (24h)</th>
+                        <th class="text-right" scope="col">Price Graph(7d)</th>
+                    </tr>
+                </thead>
+                <tbody id="cmc-table">
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Your Watchlist
+        </div>
+        `
+        );
     populateCoinsTable();
-})
-$("#next-page-btm").click(function(){
-    $("#markets-table").html("");
-    $("#previous-page").show();
-    $("#previous-page-btm").show();
-    coinPG++;
-    populateCoinsTable();
-})
-$("#previous-page").click(function(){
-    $("#markets-table").html("");
-    if(coinPG < 3){
-        $("#previous-page").hide();
-        $("#previous-page-btm").hide();
-    }
-    coinPG--;
-    populateCoinsTable();
-})
-$("#previous-page-btm").click(function(){
-    $("#markets-table").html("");
-    if(coinPG < 3){
-        $("#previous-page").hide();
-        $("#previous-page-btm").hide();
-    }
-    coinPG--;
-    populateCoinsTable();
-})
-  
+
+
+    $("#home-page-logo").click(function(){
+        location.reload()
+    })
+
+
+    //click event listener for cryptocurrency tab
+    $("#nav-cryptocurrency-tab").click(function(){
+        $("#cmc-table").html("");
+        location.reload()
+    })
+
+    //click event listener for exchanges tab
+    $("#nav-exchanges-tab").click(function(){
+        exchangeTableOpen = true;
+        $("#cmc-page-title").html( //loads up the main table title html content
+            `<div class="row justify-content-center mt-3">
+                <h4 class="align-bottom"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
+            </div>
+            <div class="row justify-content-center full-height">
+                <h6 class="align-top text-secondary font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
+            </div>`
+        );
+
+        $("#nav-tabContent").html( //loads up the table header html content
+            `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
+                <table class="table" id="markets-table-header"><!--start of table data-->
+                    <thead id="cmc-table-header">
+                            <tr>
+                                <th class="text-left" scope="col">Rank</th>
+                                <th class="text-left"scope="col">Name</th>
+                                <th class="text-left" scope="col">Trust Score</th>
+                                <th class="text-left" scope="col">Country</th>
+                                <th class="text-left" scope="col">Year Est.</th>
+                                <th class="text-right" scope="col">Volume (24h)</th>
+                            </tr>
+                    </thead>
+                    <tbody id="cmc-table">
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Your Watchlist
+            </div>`
+            );
+        $("#cmc-table").html("");
+        populateExchangeTable();
+    })
+
+    //click event listeners for cryptocurrency table navigation, all hidden when in exchanges tab
+    $("#next-page").click(function(){
+        $("#cmc-table").html("");
+        $("#previous-page").show();
+        $("#previous-page-btm").show();
+        PG++;
+        if(exchangeTableOpen == false){
+            populateCoinsTable();
+        }
+        if(exchangeTableOpen == true){
+            populateExchangeTable();
+        }
+    })
+    $("#next-page-btm").click(function(){
+        $("#cmc-table").html("");
+        $("#previous-page").show();
+        $("#previous-page-btm").show();
+        PG++;
+        if(exchangeTableOpen == false){
+            populateCoinsTable();
+        }
+        if(exchangeTableOpen == true){
+            populateExchangeTable();
+        }
+    })
+    $("#previous-page").click(function(){
+        $("#cmc-table").html("");
+        if(PG < 3){
+            $("#previous-page").hide();
+            $("#previous-page-btm").hide();
+        }
+        PG--;
+        if(exchangeTableOpen == false){
+            populateCoinsTable();
+        }
+        if(exchangeTableOpen == true){
+            populateExchangeTable();
+        }
+    })
+    $("#previous-page-btm").click(function(){
+        $("#cmc-table").html("");
+        if(PG < 3){
+            $("#previous-page").hide();
+            $("#previous-page-btm").hide();
+        }
+        PG--;
+        if(exchangeTableOpen == false){
+            populateCoinsTable();
+        }
+        if(exchangeTableOpen == true){
+            populateExchangeTable();
+        }
+    })
+    
 });
 

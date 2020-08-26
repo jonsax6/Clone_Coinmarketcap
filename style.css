@@ -18,3 +18,14 @@
     width: 100%;
 }
 
+.black-links {
+    color: #000000;
+    text-decoration: none;
+}
+.red {
+    color: red;
+}
+
+.green {
+color: green;
+}
