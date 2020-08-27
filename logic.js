@@ -33,9 +33,17 @@ $( document ).ready(function() {
         const data = await res.json();       
         let BTC_USD_price = data[0].current_price;
         return BTC_USD_price;   
-      }
+    }
      
-    
+    function movingAve(array){
+        let aveArray = []; 
+        for(i=5; i < array.length - 1; i++){
+            let indAve =((array[i-4] + array[i-3] + array[i-2] + array[i-1] + array[i])/5);
+            aveArray.push(indAve);
+        }
+        return aveArray;
+    }
+
     async function populateCoinsTable(){
         let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${PG}&sparkline=true`;
         const res = await fetch(COINS_MARKETS);
@@ -49,6 +57,7 @@ $( document ).ready(function() {
             const cirSuppy = coinData.circulating_supply ? Number(coinData.circulating_supply).toFixed(2) : "-";
             const coinDelta = coinData.price_change_percentage_24h ? Number(coinData.price_change_percentage_24h).toFixed(2) : "-";
             const sparkData = coinData.sparkline_in_7d.price;
+            //const sparkAve = movingAve(sparkData);
             const coinSymbol = coinData.symbol;
             const coinName = coinData.name;
             const coin_ID = coinData.id;
@@ -66,7 +75,13 @@ $( document ).ready(function() {
             }
             
             //table dynamically created, data feed from fetch(COINS_MARKETS)
-
+            var classColor; 
+            if (coinDelta > 0){
+                classColor = "green";
+            } 
+            if (coinDelta < 0){
+                classColor = "red";
+            }
             $("#cmc-table").append(
                 `<tr>
                     <th scope="row">${coinData.market_cap_rank}</td>
@@ -75,17 +90,12 @@ $( document ).ready(function() {
                     <td class="text-right">${formatter.format(coinPrice)}</td>
                     <td class="text-right">${formatter.format(volume)}</td>
                     <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
-                    <td id="coin-change-percent${i}" class="text-right">${coinDelta}%</td>
+                    <td id="coin-change-percent" class="text-right ${classColor}">${coinDelta}%</td>
                     <td class="text-right"><span id="sparkline${i}"></span></td>
                 </tr>`
                 
             );
-            if (coinDelta > 0){
-                $(`#coin-change-percent${i}`).addClass("green");
-            } 
-            if (coinDelta < 0){
-                $(`#coin-change-percent${i}`).addClass("red");
-            }
+            
             if (sparkData[0] > sparkData[sparkData.length - 1]){
                 $(`#sparkline${i}`).sparkline(sparkData, {
                     type: 'line',
@@ -151,8 +161,7 @@ $( document ).ready(function() {
     }
 
 
-    $("#previous-page").hide();  //make sure previous page nav buttons aren't showing for home page
-    $("#previous-page-btm").hide();
+    $("#previous-page, #previous-page-btm").hide();  //make sure previous page nav buttons aren't showing for home page
     $("#cmc-page-title").html( //loads up the main table title
         `<div class="row justify-content-center mt-3 full-height">
             <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
@@ -233,7 +242,7 @@ $( document ).ready(function() {
     })
 
     //click event listeners for cryptocurrency table navigation, all hidden when in exchanges tab
-    $("#next-page").click(function(){
+    $("#next-page, #next-page-btm").click(function(){
         $("#cmc-table").html("");
         $("#previous-page").show();
         $("#previous-page-btm").show();
@@ -245,19 +254,8 @@ $( document ).ready(function() {
             populateExchangeTable();
         }
     })
-    $("#next-page-btm").click(function(){
-        $("#cmc-table").html("");
-        $("#previous-page").show();
-        $("#previous-page-btm").show();
-        PG++;
-        if(exchangeTableOpen == false){
-            populateCoinsTable();
-        }
-        if(exchangeTableOpen == true){
-            populateExchangeTable();
-        }
-    })
-    $("#previous-page").click(function(){
+    
+    $("#previous-page, #previous-page-btm").click(function(){
         $("#cmc-table").html("");
         if(PG < 3){
             $("#previous-page").hide();
@@ -271,20 +269,7 @@ $( document ).ready(function() {
             populateExchangeTable();
         }
     })
-    $("#previous-page-btm").click(function(){
-        $("#cmc-table").html("");
-        if(PG < 3){
-            $("#previous-page").hide();
-            $("#previous-page-btm").hide();
-        }
-        PG--;
-        if(exchangeTableOpen == false){
-            populateCoinsTable();
-        }
-        if(exchangeTableOpen == true){
-            populateExchangeTable();
-        }
-    })
+    
     
 });
 
