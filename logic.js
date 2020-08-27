@@ -37,7 +37,7 @@ $( document ).ready(function() {
      
     function movingAve(array){
         let aveArray = []; 
-        for(i=5; i < array.length - 1; i++){
+        for(let i=5; i < array.length - 1; i++){
             let indAve =((array[i-4] + array[i-3] + array[i-2] + array[i-1] + array[i])/5);
             aveArray.push(indAve);
         }
@@ -57,7 +57,7 @@ $( document ).ready(function() {
             const cirSuppy = coinData.circulating_supply ? Number(coinData.circulating_supply).toFixed(2) : "-";
             const coinDelta = coinData.price_change_percentage_24h ? Number(coinData.price_change_percentage_24h).toFixed(2) : "-";
             const sparkData = coinData.sparkline_in_7d.price;
-            //const sparkAve = movingAve(sparkData);
+            const sparkAve = movingAve(sparkData);
             const coinSymbol = coinData.symbol;
             const coinName = coinData.name;
             const coin_ID = coinData.id;
@@ -96,8 +96,8 @@ $( document ).ready(function() {
                 
             );
             
-            if (sparkData[0] > sparkData[sparkData.length - 1]){
-                $(`#sparkline${i}`).sparkline(sparkData, {
+            if (sparkAve[0] > sparkAve[sparkAve.length - 1]){
+                $(`#sparkline${i}`).sparkline(sparkAve, {
                     type: 'line',
                     width: '160',
                     height: '30',
@@ -111,8 +111,8 @@ $( document ).ready(function() {
                     highlightSpotColor: undefined,
                     highlightLineColor: undefined});
             }
-            if (sparkData[0] < sparkData[sparkData.length - 1]){
-                $(`#sparkline${i}`).sparkline(sparkData, {
+            if (sparkAve[0] < sparkAve[sparkAve.length - 1]){
+                $(`#sparkline${i}`).sparkline(sparkAve, {
                     type: 'line',
                     width: '160',
                     height: '30',
