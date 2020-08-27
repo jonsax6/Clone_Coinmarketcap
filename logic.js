@@ -66,6 +66,7 @@ $( document ).ready(function() {
             }
             
             //table dynamically created, data feed from fetch(COINS_MARKETS)
+
             $("#cmc-table").append(
                 `<tr>
                     <th scope="row">${coinData.market_cap_rank}</td>
@@ -75,7 +76,7 @@ $( document ).ready(function() {
                     <td class="text-right">${formatter.format(volume)}</td>
                     <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
                     <td id="coin-change-percent${i}" class="text-right">${coinDelta}%</td>
-                    <td class="text-right"><img src=${SPARKLINE_BASE}${ID_url}.png style="height: 2em;"></td>
+                    <td class="text-right"><span id="sparkline${i}"></span></td>
                 </tr>`
                 
             );
@@ -84,6 +85,36 @@ $( document ).ready(function() {
             } 
             if (coinDelta < 0){
                 $(`#coin-change-percent${i}`).addClass("red");
+            }
+            if (sparkData[0] > sparkData[sparkData.length - 1]){
+                $(`#sparkline${i}`).sparkline(sparkData, {
+                    type: 'line',
+                    width: '160',
+                    height: '30',
+                    lineColor: '#ff0000',
+                    fillColor: null,
+                    lineWidth: 1.5,
+                    spotColor: null,
+                    minSpotColor: null,
+                    maxSpotColor: null,
+                    spotRadius: 0,
+                    highlightSpotColor: undefined,
+                    highlightLineColor: undefined});
+            }
+            if (sparkData[0] < sparkData[sparkData.length - 1]){
+                $(`#sparkline${i}`).sparkline(sparkData, {
+                    type: 'line',
+                    width: '160',
+                    height: '30',
+                    lineColor: '#00bf00',
+                    fillColor: null,
+                    lineWidth: 1.5,
+                    spotColor: null,
+                    minSpotColor: null,
+                    maxSpotColor: null,
+                    spotRadius: 0,
+                    highlightSpotColor: undefined,
+                    highlightLineColor: undefined});
             }
         }
         
