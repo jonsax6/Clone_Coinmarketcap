@@ -7,28 +7,10 @@ $( document ).ready(function() {
     minimumFractionDigits: 2
   })
 
-    let SPARKLINE_BASE = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/";
-    let coinID_Obj_Symbol = {};
     var exchangeTableOpen = false;
-
-    for(i = 0; i < CMC_DATA.length; i++){
-        let coin = CMC_DATA[i];
-        coinID_Obj_Symbol[coin.symbol] = coin.id;
-    }
-    let coinID_Obj_Slug = {};
-    for(i = 0; i < CMC_DATA.length; i++){
-        let coin = CMC_DATA[i];
-        coinID_Obj_Slug[coin.slug] = coin.id;
-    }
-    let coinID_Obj_Name = {};
-    for(i = 0; i < CMC_DATA.length; i++){
-        let coin = CMC_DATA[i];
-        coinID_Obj_Name[coin.name] = coin.id;
-    }
-
+    
     async function current_BTC_price(){
         const CRYPTO_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
-        
         let res = await fetch(CRYPTO_MARKETS);    
         const data = await res.json();       
         let BTC_USD_price = data[0].current_price;
@@ -42,6 +24,22 @@ $( document ).ready(function() {
             aveArray.push(indAve);
         }
         return aveArray;
+    }
+
+    function sparkLine(data,color){
+        $(`#sparkline${i}`).sparkline(data, {
+            type: 'line',
+            width: '160',
+            height: '30',
+            lineColor: color,
+            fillColor: null,
+            lineWidth: 1.5,
+            spotColor: null,
+            minSpotColor: null,
+            maxSpotColor: null,
+            spotRadius: 0,
+            highlightSpotColor: undefined,
+            highlightLineColor: undefined});
     }
 
     async function populateCoinsTable(){
@@ -60,32 +58,20 @@ $( document ).ready(function() {
             const sparkAve = movingAve(sparkData);
             const coinSymbol = coinData.symbol;
             const coinName = coinData.name;
-            const coin_ID = coinData.id;
             const capSymbol = coinSymbol.toUpperCase(); //converts lowercase coin symbols to uppercase
             
-            let ID_url = coinID_Obj_Symbol[capSymbol]; //sets ID_url to the coinID_Obj_Symbol assigning coinData.symbol
-            if (ID_url == undefined){ //if ID_url comes back undefined, we try an different object comparing to  "name"
-                ID_url = coinID_Obj_Name[coinName];
-            } 
-            if (ID_url == undefined){ // if above also returns undefined, we try the final object and compare to "slug"
-                ID_url = coinID_Obj_Slug[coin_ID];
-            } 
-            if (ID_url == undefined){
-                ID_url = "1";
-            }
-            
             //table dynamically created, data feed from fetch(COINS_MARKETS)
-            var classColor; 
-            if (coinDelta > 0){
+            var classColor; //variable to change color class for percent change 24h (coinDelta).
+            if (coinDelta > 0){ //if change is a positive number show it green
                 classColor = "green";
             } 
-            if (coinDelta < 0){
+            if (coinDelta < 0){ //if change is a negative number show it red
                 classColor = "red";
             }
-            $("#cmc-table").append(
+            $("#cmc-table").append( //populates the table rows with data from API
                 `<tr>
                     <th scope="row">${coinData.market_cap_rank}</td>
-                    <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinData.name}</b></td>
+                    <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
                     <td class="text-right">${formatter.format(MarketCap)}</td>
                     <td class="text-right">${formatter.format(coinPrice)}</td>
                     <td class="text-right">${formatter.format(volume)}</td>
@@ -95,37 +81,14 @@ $( document ).ready(function() {
                 </tr>`
                 
             );
-            
+            //control flow for painting sparklines green (up-trending) or red (down-trending)
             if (sparkAve[0] > sparkAve[sparkAve.length - 1]){
-                $(`#sparkline${i}`).sparkline(sparkAve, {
-                    type: 'line',
-                    width: '160',
-                    height: '30',
-                    lineColor: '#ff0000',
-                    fillColor: null,
-                    lineWidth: 1.5,
-                    spotColor: null,
-                    minSpotColor: null,
-                    maxSpotColor: null,
-                    spotRadius: 0,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined});
+                sparkLine(sparkAve, '#ff0000');
             }
             if (sparkAve[0] < sparkAve[sparkAve.length - 1]){
-                $(`#sparkline${i}`).sparkline(sparkAve, {
-                    type: 'line',
-                    width: '160',
-                    height: '30',
-                    lineColor: '#00bf00',
-                    fillColor: null,
-                    lineWidth: 1.5,
-                    spotColor: null,
-                    minSpotColor: null,
-                    maxSpotColor: null,
-                    spotRadius: 0,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined});
+                sparkLine(sparkAve, '#00bf00');
             }
+
         }
         
     }
