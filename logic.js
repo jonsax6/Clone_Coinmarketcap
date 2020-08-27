@@ -126,7 +126,7 @@ $( document ).ready(function() {
 
     $("#previous-page, #previous-page-btm").hide();  //make sure previous page nav buttons aren't showing for home page
     $("#cmc-page-title").html( //loads up the main table title
-        `<div class="row justify-content-center mt-3 full-height">
+        `<div class="row justify-content-center text-center mt-3 full-height">
             <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
         </div>`
         );
@@ -171,10 +171,10 @@ $( document ).ready(function() {
     $("#nav-exchanges-tab").click(function(){
         exchangeTableOpen = true;
         $("#cmc-page-title").html( //loads up the main table title html content
-            `<div class="row justify-content-center mt-3">
+            `<div class="row justify-content-center text-center mt-3">
                 <h4 class="align-bottom"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
             </div>
-            <div class="row justify-content-center full-height">
+            <div class="row justify-content-center text-center full-height">
                 <h6 class="align-top text-secondary font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
             </div>`
         );
