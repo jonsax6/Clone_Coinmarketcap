@@ -235,11 +235,12 @@ $( document ).ready(function() {
         </div>
         `
         );
-    populateCoinsTable();
+        populateCoinsTable();
 
 
     //-----------CLICK-EVENT LISTENERS--------------
 
+    //click event listener for home-page logo
     $("#home-page-logo").click(function(){
         location.reload()
     })
@@ -248,7 +249,7 @@ $( document ).ready(function() {
     $("#data-search").click(function(){
         if(exchangeTableOpen == false){
             let searchCoins = $("#data-search-entry").val();
-            $("#nav-tabContent").html( //table header load for home page
+            $("#nav-tabContent").html( //table header html content for cryptos
                 `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
                     <table class="table" id="markets-table-header"><!--start of table data-->
                         <thead id="cmc-table-header">
@@ -276,7 +277,7 @@ $( document ).ready(function() {
         }
         else {
             let searchExchanges = $("#data-search-entry").val();
-            $("#nav-tabContent").html( //loads up the table header html content
+            $("#nav-tabContent").html( //table header html content for exchanges
                 `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
                     <table class="table" id="markets-table-header"><!--start of table data-->
                         <thead id="cmc-table-header">
