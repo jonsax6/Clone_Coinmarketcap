@@ -174,6 +174,37 @@ $( document ).ready(function() {
         } 
     }
 
+    async function populateExchangeTableSearch(searchExchange){
+        let EXCHANGES = `${BASE_URL}/exchanges?per_page=100&page=${PG}`;
+        const res = await fetch(EXCHANGES);
+        const data = await res.json();
+        for(i = 0; i < 100; i++){
+            let exchangeData = data[i];
+            const exID = exchangeData.id;
+            const exName = exchangeData.name;
+            const exCountry = exchangeData.country;
+            const exUrl = exchangeData.url;
+            const exYear = exchangeData.year_established;
+            const volumeBTC = exchangeData.trade_volume_24h_btc ? Number(exchangeData.trade_volume_24h_btc).toFixed(2) : "-";
+            var BTC_price = await current_BTC_price();
+            const volumeUSD = Number((volumeBTC * BTC_price)).toFixed(2);
+            const exTrust = exchangeData.trust_score;
+
+            if(searchExchange == exName || searchExchange == exCountry || searchExchange == exYear || searchExchange == exTrust || searchExchange == exID){
+                //table dynamically created, data feed from fetch(COINS_MARKETS)
+                $("#cmc-table").append(
+                    `<tr>
+                        <th scope="row">${exchangeData.trust_score_rank}</td>
+                        <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b>${exchangeData.name}</b></a></td>
+                        <td class="text-left">${exTrust}</td>
+                        <td class="text-left">${exCountry}</td>
+                        <td class="text-left">${exYear}</td>
+                        <td class="text-right">${formatter.format(volumeUSD)}</td>
+                    </tr>`
+                )
+            } 
+        }
+    }    
 
     $("#previous-page, #previous-page-btm").hide();  //make sure previous page nav buttons aren't showing for home page
     $("#cmc-page-title").html( //loads up the main table title
@@ -207,14 +238,68 @@ $( document ).ready(function() {
     populateCoinsTable();
 
 
+    //-----------CLICK-EVENT LISTENERS--------------
+
     $("#home-page-logo").click(function(){
         location.reload()
     })
 
     //click event listener for search field
-    $("#coin-search").click(function(){
-        let searchEntry = $("#coin-search-entry").val();
-        populateCoinsTableSearch(searchEntry);
+    $("#data-search").click(function(){
+        if(exchangeTableOpen == false){
+            let searchCoins = $("#data-search-entry").val();
+            $("#nav-tabContent").html( //table header load for home page
+                `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <table class="table" id="markets-table-header"><!--start of table data-->
+                        <thead id="cmc-table-header">
+                            <tr>
+                                <th class="text-right" scope="col">Rank</th>
+                                <th class="text-left"scope="col">Name</th>
+                                <th class="text-right" scope="col">Market Cap</th>
+                                <th class="text-right" scope="col">Price</th>
+                                <th class="text-right" scope="col">Volume (24h)</th>
+                                <th class="text-right" scope="col">Circulating Supply</th>
+                                <th class="text-right" scope="col">Change (24h)</th>
+                                <th class="text-right" scope="col">Price Graph(7d)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cmc-table">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Your Watchlist
+                </div>
+                `
+            );
+            $("#cmc-table").html("");
+            populateCoinsTableSearch(searchCoins);
+        }
+        else {
+            let searchExchanges = $("#data-search-entry").val();
+            $("#nav-tabContent").html( //loads up the table header html content
+                `<div class="tab-pane fade show active" id="nav-cmc-table" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <table class="table" id="markets-table-header"><!--start of table data-->
+                        <thead id="cmc-table-header">
+                                <tr>
+                                    <th class="text-left" scope="col">Rank</th>
+                                    <th class="text-left"scope="col">Name</th>
+                                    <th class="text-left" scope="col">Trust Score</th>
+                                    <th class="text-left" scope="col">Country</th>
+                                    <th class="text-left" scope="col">Year Est.</th>
+                                    <th class="text-right" scope="col">Volume (24h)</th>
+                                </tr>
+                        </thead>
+                        <tbody id="cmc-table">
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Your Watchlist
+                </div>`
+            );
+            $("#cmc-table").html("");
+            populateExchangeTableSearch(searchExchanges);
+        }
     })
 
     //click event listener for cryptocurrency tab
@@ -276,7 +361,7 @@ $( document ).ready(function() {
     
     $("#previous-page, #previous-page-btm").click(function(){
         $("#cmc-table").html("");
-        if(PG < 3){
+        if(PG == 2){
             $("#previous-page").hide();
             $("#previous-page-btm").hide();
         }
