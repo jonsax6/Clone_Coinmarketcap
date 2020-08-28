@@ -99,16 +99,16 @@ $( document ).ready(function() {
         const res = await fetch(COIN);
         const data = await res.json();
 
-        const MarketCap = data.market_cap ? Number(data.market_cap).toFixed(2) : "-";
-        const coinPrice = data.current_price ? Number(data.current_price).toFixed(2) : "-";
-        const volume = data.total_volume ? Number(data.total_volume).toFixed(2) : "-";
-        const cirSuppy = data.circulating_supply ? Number(data.circulating_supply).toFixed(2) : "-";
-        const coinDelta = data.price_change_percentage_24h ? Number(data.price_change_percentage_24h).toFixed(2) : "-";
-        const sparkData = data.sparkline_in_7d.price;
-        const coinID = data.id;
+        const MarketCap = data[0].market_cap ? Number(data[0].market_cap).toFixed(2) : "-";
+        const coinPrice = data[0].current_price ? Number(data[0].current_price).toFixed(2) : "-";
+        const volume = data[0].total_volume ? Number(data[0].total_volume).toFixed(2) : "-";
+        const cirSuppy = data[0].circulating_supply ? Number(data[0].circulating_supply).toFixed(2) : "-";
+        const coinDelta = data[0].price_change_percentage_24h ? Number(data[0].price_change_percentage_24h).toFixed(2) : "-";
+        const sparkData = data[0].sparkline_in_7d.price;
+        const coinID = data[0].id;
         const sparkAve = movingAve(sparkData);
-        const coinSymbol = data.symbol;
-        const coinName = data.name;
+        const coinSymbol = data[0].symbol;
+        const coinName = data[0].name;
         const capSymbol = coinSymbol.toUpperCase(); //converts lowercase coin symbols to uppercase
 
         //table dynamically created, data feed from fetch(COINS_MARKETS)
@@ -121,8 +121,8 @@ $( document ).ready(function() {
         }
         $("#cmc-table").append( //populates the table rows with data from API
             `<tr>
-                <th scope="row">${data.market_cap_rank}</td>
-                <td><b><img src="${data.image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
+                <th scope="row">${data[0].market_cap_rank}</td>
+                <td><b><img src="${data[0].image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
                 <td class="text-right">${formatter.format(MarketCap)}</td>
                 <td class="text-right">${formatter.format(coinPrice)}</td>
                 <td class="text-right">${formatter.format(volume)}</td>
