@@ -92,8 +92,59 @@ $( document ).ready(function() {
         }
         
     }
-
     
+    async function populateCoinsTableSearch(searchCoin){
+        let COINS_MARKETS = `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${PG}&sparkline=true`;
+        const res = await fetch(COINS_MARKETS);
+        const data = await res.json();
+        
+        for(i = 0; i < data.length; i++){
+            let coinData = data[i];
+            const MarketCap = coinData.market_cap ? Number(coinData.market_cap).toFixed(2) : "-";
+            const coinPrice = coinData.current_price ? Number(coinData.current_price).toFixed(2) : "-";
+            const volume = coinData.total_volume ? Number(coinData.total_volume).toFixed(2) : "-";
+            const cirSuppy = coinData.circulating_supply ? Number(coinData.circulating_supply).toFixed(2) : "-";
+            const coinDelta = coinData.price_change_percentage_24h ? Number(coinData.price_change_percentage_24h).toFixed(2) : "-";
+            const sparkData = coinData.sparkline_in_7d.price;
+            const coinID = coinData.id;
+            const sparkAve = movingAve(sparkData);
+            const coinSymbol = coinData.symbol;
+            const coinName = coinData.name;
+            const capSymbol = coinSymbol.toUpperCase(); //converts lowercase coin symbols to uppercase
+            
+            if(searchCoin == coinName || searchCoin == coinID || searchCoin == coinSymbol || searchCoin == capSymbol){
+                //table dynamically created, data feed from fetch(COINS_MARKETS)
+                var classColor; //variable to change color class for percent change 24h (coinDelta).
+                if (coinDelta > 0){ //if change is a positive number show it green
+                    classColor = "green";
+                } 
+                if (coinDelta < 0){ //if change is a negative number show it red
+                    classColor = "red";
+                }
+
+                $("#cmc-table").append( //populates the table rows with data from API
+                    `<tr>
+                        <th scope="row">${coinData.market_cap_rank}</td>
+                        <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
+                        <td class="text-right">${formatter.format(MarketCap)}</td>
+                        <td class="text-right">${formatter.format(coinPrice)}</td>
+                        <td class="text-right">${formatter.format(volume)}</td>
+                        <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
+                        <td id="coin-change-percent" class="text-right ${classColor}">${coinDelta}%</td>
+                        <td class="text-right"><span id="sparkline${i}"></span></td>
+                    </tr>`
+                    
+                );
+                //control flow for painting sparklines green (up-trending) or red (down-trending)
+                if (sparkAve[0] > sparkAve[sparkAve.length - 1]){
+                    sparkLine(sparkAve, '#ff0000');
+                }
+                if (sparkAve[0] < sparkAve[sparkAve.length - 1]){
+                    sparkLine(sparkAve, '#00bf00');
+                }
+            }   
+        }        
+    }
 
     async function populateExchangeTable(){
         let EXCHANGES = `${BASE_URL}/exchanges?per_page=100&page=${PG}`;
@@ -160,6 +211,11 @@ $( document ).ready(function() {
         location.reload()
     })
 
+    //click event listener for search field
+    $("#coin-search").click(function(){
+        let searchEntry = $("#coin-search-entry").val();
+        populateCoinsTableSearch(searchEntry);
+    })
 
     //click event listener for cryptocurrency tab
     $("#nav-cryptocurrency-tab").click(function(){
