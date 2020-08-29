@@ -72,14 +72,14 @@ $( document ).ready(function() {
             }
             $("#cmc-table").append( //populates the table rows with data from API
                 `<tr>
-                    <th scope="row">${coinData.market_cap_rank}</td>
-                    <td><b><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
-                    <td class="text-right">${formatter.format(MarketCap)}</td>
-                    <td class="text-right">${formatter.format(coinPrice)}</td>
-                    <td class="text-right">${formatter.format(volume)}</td>
-                    <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
+                    <th class="text-right text-light" scope="row">${coinData.market_cap_rank}</td>
+                    <td><b class="text-light"><img src="${coinData.image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
+                    <td class="text-right text-light">${formatter.format(MarketCap)}</td>
+                    <td class="text-right text-light">${formatter.format(coinPrice)}</td>
+                    <td class="text-right text-light">${formatter.format(volume)}</td>
+                    <td class="text-right text-light">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
                     <td id="coin-change-percent" class="text-right ${classColor}">${coinDelta}%</td>
-                    <td class="text-right"><span id="sparkline${i}"></span></td>
+                    <td class="text-right text-light"><span id="sparkline${i}"></span></td>
                 </tr>`
                 
             );
@@ -121,12 +121,12 @@ $( document ).ready(function() {
         }
         $("#cmc-table").append( //populates the table rows with data from API
             `<tr>
-                <th scope="row">${data[0].market_cap_rank}</td>
-                <td><b><img src="${data[0].image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
-                <td class="text-right">${formatter.format(MarketCap)}</td>
-                <td class="text-right">${formatter.format(coinPrice)}</td>
-                <td class="text-right">${formatter.format(volume)}</td>
-                <td class="text-right">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
+                <th class="text-light" scope="row">${data[0].market_cap_rank}</td>
+                <td><b class="text-light"><img class="text-light" src="${data[0].image}" style="height: 1em;">&nbsp;&nbsp;${coinName}</b></td>
+                <td class="text-right text-light">${formatter.format(MarketCap)}</td>
+                <td class="text-right text-light">${formatter.format(coinPrice)}</td>
+                <td class="text-right text-light">${formatter.format(volume)}</td>
+                <td class="text-right text-light">${formatter.format(cirSuppy)}&nbsp;${capSymbol}</td>
                 <td id="coin-change-percent" class="text-right ${classColor}">${coinDelta}%</td>
                 <td class="text-right"><span id="sparkline${i}"></span></td>
             </tr>`
@@ -157,12 +157,12 @@ $( document ).ready(function() {
 
         $("#cmc-table").append(
             `<tr>
-                <th scope="row">${data.trust_score_rank}</td>
-                <td><img src="${data.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b>${data.name}</b></a></td>
-                <td class="text-left">${exTrust}</td>
-                <td class="text-left">${exCountry}</td>
-                <td class="text-left">${exYear}</td>
-                <td class="text-right">${formatter.format(volumeUSD)}</td>
+                <th class="text-light" scope="row">${data.trust_score_rank}</td>
+                <td><img src="${data.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b class="text-light">${data.name}</b></a></td>
+                <td class="text-left text-light">${exTrust}</td>
+                <td class="text-left text-light">${exCountry}</td>
+                <td class="text-left text-light">${exYear}</td>
+                <td class="text-right text-light">${formatter.format(volumeUSD)}</td>
             </tr>`
         )
     }
@@ -184,12 +184,12 @@ $( document ).ready(function() {
 
             $("#cmc-table").append(
                 `<tr>
-                    <th scope="row">${exchangeData.trust_score_rank}</td>
-                    <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b>${exchangeData.name}</b></a></td>
-                    <td class="text-left">${exTrust}</td>
-                    <td class="text-left">${exCountry}</td>
-                    <td class="text-left">${exYear}</td>
-                    <td class="text-right">${formatter.format(volumeUSD)}</td>
+                    <th class="text-light"scope="row">${exchangeData.trust_score_rank}</td>
+                    <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b class="text-light">${exchangeData.name}</b></a></td>
+                    <td class="text-left text-light">${exTrust}</td>
+                    <td class="text-left text-light">${exCountry}</td>
+                    <td class="text-left text-light">${exYear}</td>
+                    <td class="text-right text-light">${formatter.format(volumeUSD)}</td>
                 </tr>`
             )
         } 
@@ -198,7 +198,7 @@ $( document ).ready(function() {
     $("#previous-page, #previous-page-btm").hide();  //make sure previous page nav buttons aren't showing for home page
     $("#cmc-page-title").html( //loads up the main table title
         `<div class="row justify-content-center text-center mt-3 full-height">
-            <h4 class="align-self-center"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
+            <h4 class="align-self-center text-light"><strong>Top 100 Cryptocurrencies by Market Capitalization</strong></h4>
         </div>`
         );
     $("#nav-tabContent").html( //table header load for home page
@@ -206,14 +206,14 @@ $( document ).ready(function() {
             <table class="table" id="markets-table-header"><!--start of table data-->
                 <thead id="cmc-table-header">
                     <tr>
-                        <th class="text-right" scope="col">Rank</th>
-                        <th class="text-left"scope="col">Name</th>
-                        <th class="text-right" scope="col">Market Cap</th>
-                        <th class="text-right" scope="col">Price</th>
-                        <th class="text-right" scope="col">Volume (24h)</th>
-                        <th class="text-right" scope="col">Circulating Supply</th>
-                        <th class="text-right" scope="col">Change (24h)</th>
-                        <th class="text-right" scope="col">Price Graph(7d)</th>
+                        <th class="text-right text-light" scope="col">Rank</th>
+                        <th class="text-left text-light"scope="col">Name</th>
+                        <th class="text-right text-light" scope="col">Market Cap</th>
+                        <th class="text-right text-light" scope="col">Price</th>
+                        <th class="text-right text-light" scope="col">Volume (24h)</th>
+                        <th class="text-right text-light" scope="col">Circulating Supply</th>
+                        <th class="text-right text-light" scope="col">Change (24h)</th>
+                        <th class="text-right text-light" scope="col">Price Graph(7d)</th>
                     </tr>
                 </thead>
                 <tbody id="cmc-table">
@@ -244,14 +244,14 @@ $( document ).ready(function() {
                     <table class="table" id="markets-table-header"><!--start of table data-->
                         <thead id="cmc-table-header">
                             <tr>
-                                <th class="text-right" scope="col">Rank</th>
-                                <th class="text-left"scope="col">Name</th>
-                                <th class="text-right" scope="col">Market Cap</th>
-                                <th class="text-right" scope="col">Price</th>
-                                <th class="text-right" scope="col">Volume (24h)</th>
-                                <th class="text-right" scope="col">Circulating Supply</th>
-                                <th class="text-right" scope="col">Change (24h)</th>
-                                <th class="text-right" scope="col">Price Graph(7d)</th>
+                                <th class="text-right text-light" scope="col">Rank</th>
+                                <th class="text-left text-light"scope="col">Name</th>
+                                <th class="text-right text-light" scope="col">Market Cap</th>
+                                <th class="text-right text-light" scope="col">Price</th>
+                                <th class="text-right text-light" scope="col">Volume (24h)</th>
+                                <th class="text-right text-light" scope="col">Circulating Supply</th>
+                                <th class="text-right text-light" scope="col">Change (24h)</th>
+                                <th class="text-right text-light" scope="col">Price Graph(7d)</th>
                             </tr>
                         </thead>
                         <tbody id="cmc-table">
@@ -271,12 +271,12 @@ $( document ).ready(function() {
                     <table class="table" id="markets-table-header"><!--start of table data-->
                         <thead id="cmc-table-header">
                                 <tr>
-                                    <th class="text-left" scope="col">Rank</th>
-                                    <th class="text-left"scope="col">Name</th>
-                                    <th class="text-left" scope="col">Trust Score</th>
-                                    <th class="text-left" scope="col">Country</th>
-                                    <th class="text-left" scope="col">Year Est.</th>
-                                    <th class="text-right" scope="col">Volume (24h)</th>
+                                    <th class="text-left text-light" scope="col">Rank</th>
+                                    <th class="text-left text-light"scope="col">Name</th>
+                                    <th class="text-left text-light" scope="col">Trust Score</th>
+                                    <th class="text-left text-light" scope="col">Country</th>
+                                    <th class="text-left text-light" scope="col">Year Est.</th>
+                                    <th class="text-right text-light" scope="col">Volume (24h)</th>
                                 </tr>
                         </thead>
                         <tbody id="cmc-table">
@@ -364,10 +364,10 @@ $( document ).ready(function() {
         exchangeTableOpen = true;
         $("#cmc-page-title").html( //loads up the main table title html content
             `<div class="row justify-content-center text-center mt-3">
-                <h4 class="align-bottom"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
+                <h4 class="align-bottom text-light"><strong>Top Cryptocurrency Spot Exchanges</strong></h4>
             </div>
             <div class="row justify-content-center text-center full-height">
-                <h6 class="align-top text-secondary font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
+                <h6 class="align-top  text-light font-weight-light">CoinMarketCap ranks the top cryptocurrency exchanges based on traffic, liquidity, trading volumes of spot markets.</h6>
             </div>`
         );
 
@@ -376,12 +376,12 @@ $( document ).ready(function() {
                 <table class="table" id="markets-table-header"><!--start of table data-->
                     <thead id="cmc-table-header">
                             <tr>
-                                <th class="text-left" scope="col">Rank</th>
-                                <th class="text-left"scope="col">Name</th>
-                                <th class="text-left" scope="col">Trust Score</th>
-                                <th class="text-left" scope="col">Country</th>
-                                <th class="text-left" scope="col">Year Est.</th>
-                                <th class="text-right" scope="col">Volume (24h)</th>
+                                <th class="text-left text-light" scope="col">Rank</th>
+                                <th class="text-left text-light"scope="col">Name</th>
+                                <th class="text-left text-light" scope="col">Trust Score</th>
+                                <th class="text-left text-light" scope="col">Country</th>
+                                <th class="text-left text-light" scope="col">Year Est.</th>
+                                <th class="text-right text-light" scope="col">Volume (24h)</th>
                             </tr>
                     </thead>
                     <tbody id="cmc-table">

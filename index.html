@@ -14,19 +14,19 @@
     <script src="logic.js"></script>
     <title>CoinMarketCap Clone</title>
   </head>
-  <body>
-    <div class="container my-container mb-5 mt-1">
+  <body class="grey-backing">
+    <div class="container my-container mb-5 mt-1 grey-backing">
         <div class="row"><!--1st visible row-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-12 "><!--column for first vis row-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-12 text-light"><!--column for first vis row-->
                 <p><small>Cryptocurrencies: <strong id="totalCryptos" class="text-primary">6,525</strong> Markets: <strong id="numMarkets" class="text-primary">26,855</strong> Market Cap: <strong id="totalMarketCap" class="text-primary">$372,367,365,184</strong> 24h Vol: <strong id="total24hrVol" class="text-primary">$87,954,486,240</strong> BTC Dominance: <strong id="BTC_Dominance" class="text-primary">58.9%</strong>
                 </small></p>
             </div>
         </div>
         <div class="row"><!--2nd visible row (nav bar)-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-12"><!--column for 2nd visible row-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-white"><!--start of navbar-->
+                <nav class="navbar navbar-expand-lg navbar-light grey-backing"><!--start of navbar-->
                     <a class="navbar-brand" id="home-page-logo" href="" onclick="location.reload()">
-                        <img src="https://s2.coinmarketcap.com/static/cloud/img/coinmarketcap_1.svg?_=0d6e6f2" id="home-page-logo" style="height:1.75em">
+                        <img class="img-invert" src="https://s2.coinmarketcap.com/static/cloud/img/coinmarketcap_1.svg?_=0d6e6f2" id="home-page-logo" style="height:1.75em">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,66 +34,66 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto"><!--start of dropdown items-->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle grey-backing text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cryptocurrencies
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://coinmarketcap.com/">Cryptocurrencies</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/coins/">Coins</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/tokens/">Tokens</a>
+                            <div class="dropdown-menu lt-grey-backing" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/">Cryptocurrencies</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/coins/">Coins</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/tokens/">Tokens</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle grey-backing text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Exchanges
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu lt-grey-backing" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
                             <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item dropdown grey-backing text-light">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Headlines
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://coinmarketcap.com/headlines/">Feed</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/headlines/news/">News</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/headlines/news/">Signals</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/headlines/events/">Events</a>
+                        <div class="dropdown-menu lt-grey-backing text-light" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/headlines/">Feed</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/headlines/news/">News</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/headlines/news/">Signals</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/headlines/events/">Events</a>
                         </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Products
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                            <div class="dropdown-menu lt-grey-backing" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Tools
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                            <div class="dropdown-menu lt-grey-backing" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Learn
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
-                            <a class="dropdown-item" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
+                            <div class="dropdown-menu lt-grey-backing" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/">Spot</a>
+                            <a class="dropdown-item text-light" href="https://coinmarketcap.com/rankings/exchanges/derivatives/">Derivatives</a>
                             </div>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0" onsubmit="return false"><!--data-search input field-->
-                        <input class="form-control mr-sm-2" id="data-search-entry" type="text" placeholder="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" id="data-search" type="button">Search</button>
+                        <input class="form-control mr-sm-2 lt-grey-backing text-light" id="data-search-entry" type="text" onfocus="false">
+                        <button class="btn btn-outline-success my-2 my-sm-0 lt-grey-backing text-light" id="data-search" type="button">Search</button>
                     </form>
                     </div>
                 </nav>
@@ -104,11 +104,10 @@
             </div>
         </div>
         <!--start of table tabs-->
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-link active" id="nav-cryptocurrency-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-cryptocurrency" aria-selected="true">Cryptocurrencies</a>
-                <a class="nav-link" id="nav-exchanges-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-exchanges" aria-selected="false" on-click="booleanToggle()">Exchanges</a>
-                <a class="nav-link" id="nav-watchlist-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-watchlist" aria-selected="false">Watchlist</a>
+        <nav class="grey-backing">
+            <div class="nav nav-pills" id="nav-tab" role="tablist">
+                <a class="nav-link active border border-secondary link-color" id="nav-cryptocurrency-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-cryptocurrency" aria-selected="true">Cryptocurrencies</a>
+                <a class="nav-link border border-secondary link-color" id="nav-exchanges-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-exchanges" aria-selected="false">Exchanges</a>
                 <div class="col">
                     <div class="d-flex flex-row-reverse nav-buttons"><!--top next/previous page nav buttons-->
                         <div class="p-2">

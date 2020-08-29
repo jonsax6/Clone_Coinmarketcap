@@ -7,7 +7,11 @@
 }
 
 .grey-backing {
-    background: grey;
+    background: #2b3440;
+}
+
+.lt-grey-backing {
+    background: #666666;
 }
 
 .full-height {
@@ -27,5 +31,19 @@
 }
 
 .green {
-color: green;
+color: #00d142;
+}
+
+.img-invert {
+    -webkit-filter:invert(100%);
+     filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+}
+
+.form-control:focus {
+    background-color: #666666;
+
+}
+
+.link-color {
+    text-decoration: none;
 }
