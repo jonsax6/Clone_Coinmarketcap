@@ -158,7 +158,7 @@ $( document ).ready(function() {
         $("#cmc-table").append(
             `<tr>
                 <th class="text-light" scope="row">${data.trust_score_rank}</td>
-                <td><img src="${data.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b class="text-light">${data.name}</b></a></td>
+                <td><img src="${data.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}" target="_blank"><b class="text-light">${data.name}</b></a></td>
                 <td class="text-left text-light">${exTrust}</td>
                 <td class="text-left text-light">${exCountry}</td>
                 <td class="text-left text-light">${exYear}</td>
@@ -185,7 +185,7 @@ $( document ).ready(function() {
             $("#cmc-table").append(
                 `<tr>
                     <th class="text-light"scope="row">${exchangeData.trust_score_rank}</td>
-                    <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}"><b class="text-light">${exchangeData.name}</b></a></td>
+                    <td><img src="${exchangeData.image}" style="height: 1em;">&nbsp;&nbsp;<a class="black-links" href ="${exUrl}" target="_blank"><b class="text-light">${exchangeData.name}</b></a></td>
                     <td class="text-left text-light">${exTrust}</td>
                     <td class="text-left text-light">${exCountry}</td>
                     <td class="text-left text-light">${exYear}</td>
